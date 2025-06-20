@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Blob Video Player</title>
+    <style>
+        body {
+            background: #000;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video {
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 0 20px cyan;
+        }
+    </style>
+</head>
+
+<body>
+
+    <video id="player" controls autoplay></video>
+
+    <script>
+        const video = document.getElementById('player');
+        const videoURL = 'https://videofromsquid-pull.b-cdn.net/video.mp4';  // Your Bunny.net Pull Zone URL
+
+        fetch(videoURL)
+            .then(response => {
+                if (!response.ok) throw new Error('Network error: ' + response.status);
+                return response.blob();
+            })
+            .then(blob => {
+                const blobURL = URL.createObjectURL(blob);
+                video.src = blobURL;
+                video.play();
+            })
+            .catch(err => {
+                console.error('Failed to load video:', err);
+            });
+    </script>
+
+</body>
+
+</html>
